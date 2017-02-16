@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.jd.dao.UserDao">	
+	<select id="selectByParams" resultType="User" parameterType="map">
+		select * from users
+		where 1=1
+		<if test="userName != null and userName!= ''">
+			and userName = '${userName}'
+		</if>
+	</select>
+</mapper> 
