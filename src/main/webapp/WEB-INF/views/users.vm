@@ -1,0 +1,23 @@
+<div>
+    <table border="1" align="center" cellpadding="5" cellspacing="0"
+           bgcolor="#fffaf0">
+        <tr>
+            <th>用户id</th>
+            <th>用户姓名</th>
+            <th>描述</th>
+        </tr>
+        #set($count=1)
+        #foreach(${user} in ${users})
+            #if(${count} % 2==0)
+                <tr style="background-color: cornsilk">
+                #elseif(${count} % 2 !=0)
+                <tr style="background-color: red">
+            #end
+                <td>${user.userId}</td>
+                <td>${user.userName}</td>
+                <td>${user.description}</td>
+                #set($count=${count}+1)
+            </tr>
+        #end
+    </table>
+</div>

@@ -1,0 +1,9 @@
+<div id="formdiv">
+    <fieldset>
+        <form name="user" action="/getUser" method="post">
+            <legend>查询用户</legend>
+            <input type="text" name="userName">
+            <input type="submit" value="提交">
+        </form>
+    </fieldset>
+</div>

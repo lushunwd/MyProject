@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 public class User {
 
 	private int userId;
-	@Size(min = 1, max = 2)
+	@Size(min = 1, max = 10)
 	private String userName;
 	private String description;
 

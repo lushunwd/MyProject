@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<mvc:annotation-driven />
+
+	<mvc:view-controller path="/" view-name="redirect:/index"/>
+
+	<!-- spring可以自动去扫描base-package下面或者子包下面的java文件， 如果扫描到有@Component @Controller 
+		@Service @Repository等这些注解的类，则把这些类注册为bean -->
+	<context:component-scan base-package="com.jd.*" />
+
+	<!-- 模型解析，在请求时为模型视图名称添加前后缀 比如在controller类中需要请求/WEB-INF/page/index.jsp文件，直接写index就可以了 -->
+
+	<!--<bean-->
+		<!--class="org.springframework.web.servlet.view.InternalResourceViewResolver"-->
+		<!--p:prefix="/WEB-INF/page/" p:suffix=".jsp" />-->
+
+	<bean id="localResolver"
+		class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver">
+	</bean>
+
+	<!-- 配置VelocityConfigurer，负责在spring中设置Velocity引擎。通过属性resourceLoaderPath告诉Velocity到哪里寻找它的模板。
+       通常将模板放到WEB-INF下的某个子目录下，可以保证这些模板不能被直接访问。-->
+	<bean id="velocityConfig"
+		  class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath"  value="/WEB-INF/views/"/>
+		<!--<property name="configLocation" value="classpath:velocity.properties"/>-->
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<prop key="contentType">text/html;charset=UTF-8</prop>
+				<!--<prop key="velocimacro.library">macro.vm</prop>-->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="velocityViewResolver"
+		  class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+		<property name="layoutUrl" value="layout/default.vm" />
+		<property name="cache" value="false" />
+		<property name="suffix" value=".vm" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="dateToolAttribute" value="dateTool" />
+		<property name="numberToolAttribute" value="numberTool" />
+		<!-- Merge urlBuilderMap to view context for convenience. You can put your tools which must be thread safe. -->
+		<!--<property name="attributesMap" ref="_utilMap" />-->
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+
+
+</beans>
