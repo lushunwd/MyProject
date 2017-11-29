@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.jd.dao.UnitTestDao">
+    <resultMap id="BaseResultMap" type="com.jd.entity.JobDetail" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+    </resultMap>
+    <insert id="saveTestResult" useGeneratedKeys="true" parameterType="java.util.List">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        unit_test (
+        prj_key,
+        prj_name,
+        build_no,
+        total_count,
+        skip_count,
+        failed_count,
+        passed_count,
+        duration,
+        class_count,
+        batch_no
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.prjKey},
+            #{item.prjName},
+            #{item.buildNo},
+            #{item.totalCount},
+            #{item.skipCount},
+            #{item.failCount},
+            #{item.passCount},
+            #{item.duration},
+            #{item.classCount},
+            #{item.batchNo}
+            )
+        </foreach>
+    </insert>
+
+</mapper> 

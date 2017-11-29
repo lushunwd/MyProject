@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:artifact="antlib:org.apache.maven.artifact.ant" name="AntDemo" default="junit" basedir="." >
+
+    <!-- =================================================================== -->
+    <!-- 变量设置  -->
+    <!-- =================================================================== -->
+
+    <!-- 源代码src路径 -->
+    <property name="src.path" value="src/main"/>
+    <!-- 编译文件class路径 -->
+    <property name="build.path" value="build"/>
+    <!-- 单元测试代码路径 -->
+    <property name="test.path" value="src/test/java"/>
+    <!--资源目录-->
+    <property name="resource.path" value="src/main/resources"/>
+    <!-- lib包路径 -->
+    <property name="lib.path" value="lib"/>
+    <!-- 生成报告junit4.xml路径 -->
+    <property name="report.path" value="report"/>
+
+    <!-- =================================================================== -->
+    <!-- 设置classpath -->
+    <!-- =================================================================== -->
+    <path id="compile.path" >
+        <fileset dir="${lib.path}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement path="${build.path}"/>
+    </path>
+
+    <target name="init" depends="clean,delete">
+        <mkdir dir="${build.path}"/>
+        <mkdir dir="${report.path}"/>
+        <mkdir dir="${lib.path}"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- 编译测试文件，初始化目录 -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="init,dependency" description="compile" >
+        <copy todir="${build.path}" verbose="true" overwrite="true">
+            <fileset dir="${resource.path}"/>
+        </copy>
+        <javac srcdir="${src.path}" includeantruntime="false" destdir="${build.path}" classpathref="compile.path" failonerror="false">
+            <compilerarg line="-encoding UTF-8 "/>
+        </javac>
+        <javac srcdir="${test.path}" includeantruntime="false" destdir="${build.path}" classpathref="compile.path" failonerror="false">
+            <compilerarg line="-encoding UTF-8 "/>
+        </javac>
+    </target>
+
+
+    <target name="dependency"  description="配置 ant 自动下载maven的依赖包 end ">
+        <!-- 引入tomcat的jar包-->
+        <!--<copydir src="${tomcat.lib.dir}" dest="${lib.dir}" />-->
+        <!-- 下载maven依赖-->
+        <path id="maven-ant-tasks.classpath" path="${lib.path}/maven-ant-tasks-2.1.3.jar" />
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+        <artifact:dependencies filesetId ="mavenlib"  pathId="mavenclasspath" useScope="test">
+            <artifact:pom file="pom.xml" />
+        </artifact:dependencies>
+        <copy todir="${lib.path}">
+            <fileset refid="mavenlib" />
+            <mapper type="flatten" />
+        </copy>
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- 执行测试案例 -->
+    <!-- =================================================================== -->
+    <target name="junit" depends="compile" >
+        <junit printsummary="true" fork="true">
+            <formatter type="xml" usefile="true"/>
+
+            <classpath refid="compile.path"/>
+
+            <batchtest fork="on" todir="${report.path}" haltonfailure="no">
+                <fileset dir="${build.path}">
+                    <include name="**/*Test*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <!-- 产生单元测试报表文档 -->
+        <junitreport todir="${report.path}">
+            <fileset dir="${report.path}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${report.path}"/>
+        </junitreport>
+
+    </target>
+
+    <!-- 清除Junit生成的报表文档 -->
+    <target name="delete">
+        <delete dir="${report.path}" failonerror="false"/>
+    </target>
+    <!-- =================================================================== -->
+    <!-- 清除历史编译class -->
+    <!-- =================================================================== -->
+    <target name="clean" description="clean">
+        <delete dir="${build.path}" failonerror="false"/>
+    </target>
+    <target name="deleteAll" depends="clean,delete">
+        <delete dir="lib">
+            <exclude name="maven-ant-tasks-2.1.3.jar" />
+        </delete>
+        <delete dir="target"/>
+    </target>
+    <target name="leaveReport" depends="clean">
+        <delete dir="lib">
+            <exclude name="maven-ant-tasks-2.1.3.jar" />
+        </delete>
+        <delete dir="target"/>
+    </target>
+
+    <target name="clean_1" description="mvn" >
+        <artifact:mvn mavenHome="D:/Program Files/apache-maven-3.3.9" fork="true">
+            <artifact:arg value="install"/>
+        </artifact:mvn>
+        <echo>mvn install finished..</echo>
+    </target>
+</project>

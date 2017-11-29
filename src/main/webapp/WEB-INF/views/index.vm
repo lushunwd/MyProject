@@ -6,4 +6,5 @@
             <input type="submit" value="提交">
         </form>
     </fieldset>
+    <a href="/shell"> 执行shell脚本</a>
 </div>
