@@ -1,4 +1,4 @@
-package com.jd.controller;
+package com.lushun.controller;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.jd.entity.User;
-import com.jd.service.UserService;
+import com.lushun.entity.User;
+import com.lushun.service.UserService;
 
 @Controller
 public class getUserController {

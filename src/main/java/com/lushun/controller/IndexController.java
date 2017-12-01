@@ -1,10 +1,10 @@
-package com.jd.controller;
+package com.lushun.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.jd.entity.User;
+import com.lushun.entity.User;
 
 @Controller
 public class IndexController {

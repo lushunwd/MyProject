@@ -1,4 +1,4 @@
-package com.jd.service;
+package com.lushun.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jd.dao.UserDao;
-import com.jd.entity.User;
+import com.lushun.dao.UserDao;
+import com.lushun.entity.User;
 
 @Service
 public class UserService {

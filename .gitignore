@@ -4,3 +4,14 @@
 .classpath
 MyProject.iml
 target
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+template.xml.bak
+myUnit.xlsx
+template.xml

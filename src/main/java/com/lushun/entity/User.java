@@ -1,4 +1,4 @@
-package com.jd.entity;
+package com.lushun.entity;
 
 import javax.validation.constraints.Size;
 

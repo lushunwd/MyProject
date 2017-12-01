@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@3.6.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url></url>
+                <credentialsId></credentialsId>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/dev</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions/>
+    </scm>
+    <assignedNode>unit</assignedNode>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <jdk>(System)</jdk>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>
+#!/bin/sh
+source /etc/profile
+myfile=&quot;pom.xml&quot;
+function updatePom()
+	{
+		sed -i &apos;/&lt;skipTests&gt;/s/true/false/g&apos; $1
+		sed -i &apos;/&lt;skip&gt;/s/true/false/g&apos; $1
+	}
+	updatePom $myfile
+	for file in ./*
+	do
+		if test -d &quot;$file&quot; ; then
+			cd $file
+			if test -f &quot;$myfile&quot; ; then
+				updatePom $myfile
+			fi
+			cd ../
+		fi
+	done
+	mvn clean test -Dmaven.test.failure.ignore -Dmaven.test.skip=false -DskipTests=false
+	if test[ $? == 0 ];then
+		echo &quot;##############################&quot;
+		echo &quot;# maven test successfully!  #&quot;
+		echo &quot;##############################&quot;
+	else
+		echo &quot;[ERROR]maven test failed!&quot;
+		exit 1;
+	fi
+            </command>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers>
+        <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.21">
+            <testResults>**/target/surefire-reports/*.xml</testResults>
+            <keepLongStdio>false</keepLongStdio>
+            <healthScaleFactor>1.0</healthScaleFactor>
+            <allowEmptyResults>true</allowEmptyResults>
+        </hudson.tasks.junit.JUnitResultArchiver>
+        <hudson.tasks.Mailer plugin="mailer@1.20">
+            <recipients>lushun@jd.com</recipients>
+            <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+            <sendToIndividuals>false</sendToIndividuals>
+        </hudson.tasks.Mailer>
+    </publishers>
+    <buildWrappers/>
+</project>

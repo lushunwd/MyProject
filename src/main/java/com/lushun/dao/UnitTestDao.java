@@ -1,7 +1,7 @@
-package com.jd.dao;
+package com.lushun.dao;
 
-import com.jd.entity.JobDetail;
-import com.jd.entity.User;
+import com.lushun.entity.JobDetail;
+import com.lushun.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.jd.common;
+package com.lushun.common;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -111,7 +111,7 @@ public class RemoteShellExecutor {
      }
 
 //    public static void main(String args[]) throws Exception {
-//        RemoteShellExecutor executor = new RemoteShellExecutor("192.168.202.195", "root", "TEST@jd.com");
+//        RemoteShellExecutor executor = new RemoteShellExecutor("192.168.202.195", "root", "TEST@lushun.com");
 //        // 执行myTest.sh 参数为java Know dummy
 //        System.out.println(executor.exec("/tmp/myTest.sh"));
 //    }

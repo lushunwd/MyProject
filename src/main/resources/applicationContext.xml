@@ -37,7 +37,7 @@
     <!-- 扫描basePackage接口 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 映射器接口文件的包路径， -->
-        <property name="basePackage" value="com.jd.dao"/>
+        <property name="basePackage" value="com.lushun.dao"/>
     </bean>
 
     <!-- 使用annotation定义事务 -->

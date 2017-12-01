@@ -1,4 +1,4 @@
-package com.jd.entity;
+package com.lushun.entity;
 
 /**
  * Created by lushun on 2017/11/29.
